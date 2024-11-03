@@ -87,8 +87,11 @@
     </div>
 
     <script>
+        let generarCorazonesCursor = true; // Variable para controlar la generación de corazones
+
         function aceptar() {
             alert("¡Sabía que dirías que sí! 💖");
+            generarCorazonesCursor = false; // Desactiva la generación de corazones
         }
 
         function moverBoton() {
@@ -102,6 +105,8 @@
             btnNo.style.position = "absolute";
             btnNo.style.left = `${randomX}px`;
             btnNo.style.top = `${randomY}px`;
+
+            generarCorazonesCursor = false; // Desactiva la generación de corazones
         }
 
         function generarCorazones() {
@@ -153,6 +158,8 @@
         // Limitar la frecuencia de creación de corazones con el cursor
         let ultimoCorazon = 0;
         document.addEventListener("mousemove", (e) => {
+            if (!generarCorazonesCursor) return; // Verifica si se deben generar corazones
+
             const ahora = Date.now();
             if (ahora - ultimoCorazon > 100) {  // Controla la frecuencia de creación de corazones
                 const heart = document.createElement("div");
