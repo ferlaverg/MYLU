@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pregunta Especial</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 100px;
+            color: #fff;
+            background-image: url('c.png'); /* Cambia la URL de la imagen */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 28px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            background-color: #ff4081;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #ff1e70;
+        }
+        .heart {
+            position: absolute;
+            color: #ff69b4;
+            font-size: 24px;
+            pointer-events: auto;
+            animation: float 3s ease forwards;
+        }
+        .message {
+            position: absolute;
+            font-size: 18px;
+            color: #fff;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+            pointer-events: none;
+            opacity: 1;
+            animation: fadeOut 2s ease forwards;
+        }
+        @keyframes float {
+            0% {
+                opacity: 1;
+                transform: translateY(0px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) scale(1.5);
+            }
+        }
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>¿Quieres ser mi novia para siempre? ❤️</h1>
+
+    <div class="button-container">
+        <button onclick="aceptar()">Sí</button>
+        <button id="btnNo" onmouseover="moverBoton()">No</button>
+        <button onclick="generarCorazones()">🎈 Corazones Mágicos 🎈</button>
+    </div>
+
+    <script>
+        function aceptar() {
+            alert("¡Sabía que dirías que sí! 💖");
+        }
+
+        function moverBoton() {
+            const btnNo = document.getElementById("btnNo");
+            const maxX = window.innerWidth - btnNo.offsetWidth;
+            const maxY = window.innerHeight - btnNo.offsetHeight;
+
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            btnNo.style.position = "absolute";
+            btnNo.style.left = `${randomX}px`;
+            btnNo.style.top = `${randomY}px`;
+        }
+
+        function generarCorazones() {
+            const mensajes = [
+                "Me encantas 💖",
+                "Eres increíble 🌹",
+                "¡Qué bonito tenerte! ❤️",
+                "Eres mi razón de ser 🥰",
+                "Gracias por existir 💕",
+                "Eres lo mejor de mi vida 💞"
+            ];
+
+            for (let i = 0; i < 15; i++) {  // Genera 15 corazones
+                const heart = document.createElement("div");
+                heart.className = "heart";
+                heart.innerText = "❤️";
+                heart.style.left = `${Math.random() * (window.innerWidth - 50)}px`;
+                heart.style.top = `${Math.random() * (window.innerHeight - 50)}px`;
+                document.body.appendChild(heart);
+
+                // Mostrar un mensaje bonito al pasar sobre el corazón
+                heart.addEventListener("mouseover", () => {
+                    mostrarMensajeBonito(heart, mensajes);
+                    heart.remove();
+                });
+
+                // Elimina el corazón después de 3 segundos si no se rompió
+                setTimeout(() => {
+                    if (document.body.contains(heart)) heart.remove();
+                }, 3000);
+            }
+        }
+
+        function mostrarMensajeBonito(heart, mensajes) {
+            const mensaje = document.createElement("div");
+            mensaje.className = "message";
+            mensaje.innerText = mensajes[Math.floor(Math.random() * mensajes.length)];
+
+            // Coloca el mensaje en la misma posición que el corazón
+            mensaje.style.left = heart.style.left;
+            mensaje.style.top = heart.style.top;
+            document.body.appendChild(mensaje);
+
+            setTimeout(() => {
+                mensaje.remove();
+            }, 2000); // Elimina el mensaje después de 2 segundos
+        }
+
+        // Limitar la frecuencia de creación de corazones con el cursor
+        let ultimoCorazon = 0;
+        document.addEventListener("mousemove", (e) => {
+            const ahora = Date.now();
+            if (ahora - ultimoCorazon > 100) {  // Controla la frecuencia de creación de corazones
+                const heart = document.createElement("div");
+                heart.className = "heart";
+                heart.style.left = `${e.pageX}px`;
+                heart.style.top = `${e.pageY}px`;
+                heart.innerText = "❤️";
+                document.body.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 1000);
+
+                ultimoCorazon = ahora;
+            }
+        });
+    </script>
+
+</body>
+</html>
+
